@@ -4,6 +4,7 @@ import React from 'react';
 import SearchBar from '../SearchBar/SearchBar';
 import SearchResults from '../SearchResults/SearchResults';
 import Playlist from '../Playlist/Playlist';
+import Spotify from '../../util/Spotify';
 
 class App extends React.Component {
   constructor(props) {
@@ -65,14 +66,16 @@ class App extends React.Component {
         'Authorization': 'Bearer BQCqoQ2VjXQJ0w4_R7RpZ4KwZm0KkqMZgZ1hJj3QT3VpZ7Z6_5b5wR-J-5_6zw6-3Z5F_6Xjvx-1-3Dp0'
       },
       body: JSON.stringify(data)
-    })
-    .then(response => response.json())
+    }).then(response => response.json())
   
   }
 
   search (searchTerm) {
-      console.log(searchTerm);
-  }
+      Spotify.search(searchTerm).then(searchResults => {
+        this.setState({ SearchResults: searchResults });
+      
+  })
+}
 
   render() {
     return (
