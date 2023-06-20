@@ -25,6 +25,8 @@ class App extends React.Component {
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
+    this.savePlaylist = this.savePlaylist.bind(this);
+    this.search = this.search.bind(this);
   }
 
   addTrack(track) {
@@ -46,7 +48,31 @@ class App extends React.Component {
     this.setState({ playlistName: name });
   
   }
+
+  savePlaylist() {
+    const trackUris = this.state.playlistTracks.map(track => track.uri);
+    console.log(trackUris);
+    console.log(this.state.playlistName);
+    console.log(this.state.playlistTracks);
+    const data = {
+      name: this.state.playlistName,
+      tracks: trackUris
+    }
+    fetch('https://api.spotify.com/v1/users/jasonmorales/playlists', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer BQCqoQ2VjXQJ0w4_R7RpZ4KwZm0KkqMZgZ1hJj3QT3VpZ7Z6_5b5wR-J-5_6zw6-3Z5F_6Xjvx-1-3Dp0'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
   
+  }
+
+  search (searchTerm) {
+      console.log(searchTerm);
+  }
 
   render() {
     return (
@@ -55,7 +81,7 @@ class App extends React.Component {
           Ja<span className="highlight">mmm</span>ing
         </h1>
         <div className="App">
-          <SearchBar />
+          <SearchBar onSearch={this.search}/>
           <div className="App-playlist">
             <SearchResults SearchResults={this.state.SearchResults} 
                           onAdd={this.addTrack}/>
@@ -64,6 +90,7 @@ class App extends React.Component {
               playlistTracks={this.state.playlistTracks}
               onRemove={this.removeTrack}
               onNameChange={this.updatePlaylistName}
+              onSave={this.savePlaylist}
             />
           </div>
         </div>
