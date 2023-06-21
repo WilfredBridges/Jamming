@@ -31,7 +31,7 @@ Jammming is a web application that allows users to search for songs, create play
 
 To run Jammming locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/jammming.git`
+1. Clone the repository: `git clone https://github.com/WilfredBridges/Jamming.git`
 2. Navigate to the project directory: `cd jammming`
 3. Install the dependencies: `npm install`
 
