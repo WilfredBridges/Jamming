@@ -11,17 +11,9 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      SearchResults: [
-        { name: 'name1', artist: 'artist1', album: 'album1', id: 1 },
-        { name: 'name2', artist: 'artist2', album: 'album2', id: 2 },
-        { name: 'name3', artist: 'artist3', album: 'album3', id: 3 }
-      ],
+      SearchResults: [],
       playlistName: 'New Playlist',
-      playlistTracks: [
-        { name: 'playlistName1', artist: 'playlisArtist1', album: 'playlistAlbum1', id: 4 },
-        { name: 'playlistName2', artist: 'playlisArtist2', album: 'playlistAlbum2', id: 5 },
-        { name: 'playlistName3', artist: 'playlisArtist3', album: 'playlistAlbum3', id: 6 }
-      ]
+      playlistTracks: []
     };
     this.addTrack = this.addTrack.bind(this);
     this.removeTrack = this.removeTrack.bind(this);
@@ -52,21 +44,13 @@ class App extends React.Component {
 
   savePlaylist() {
     const trackUris = this.state.playlistTracks.map(track => track.uri);
-    console.log(trackUris);
-    console.log(this.state.playlistName);
-    console.log(this.state.playlistTracks);
-    const data = {
-      name: this.state.playlistName,
-      tracks: trackUris
-    }
-    fetch('https://api.spotify.com/v1/users/jasonmorales/playlists', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer BQCqoQ2VjXQJ0w4_R7RpZ4KwZm0KkqMZgZ1hJj3QT3VpZ7Z6_5b5wR-J-5_6zw6-3Z5F_6Xjvx-1-3Dp0'
-      },
-      body: JSON.stringify(data)
-    }).then(response => response.json())
+    Spotify.savePlaylist(this.state.playlistName, trackUris).then(() => {
+      this.setState({
+        playlistName: 'New Playlist',
+        playlistTracks: []
+      
+      })
+    })
   
   }
 
